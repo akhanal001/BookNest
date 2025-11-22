@@ -20,8 +20,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // localhost:3000/api/books/users  --> fetch all users for testing
-const bookRoutes = require("./routes/bookroute");
+const bookRoutes = require("./routes/bookRoutes");
 app.use("/api/books", bookRoutes);
+
+const favoriteRoutes = require("./routes/favoritesRoutes");
+app.use("/api/favorites", favoriteRoutes);
 
 
 app.use(express.static("frontend"));

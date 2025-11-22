@@ -1,0 +1,35 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+function FavoritesPage() {
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    async function loadFavorites() {
+      const res = await fetch("http://localhost:3000/api/favorites/user/1"); // I am using user_id = 1 for demo 
+      const data = await res.json();
+      setFavorites(data);
+    }
+    loadFavorites();
+  }, []);
+
+  return (
+    <div>
+      <h1 className="welcome">My Favorite Books</h1>
+      <Link to="/" className="nav-link">
+        <button>Back to HomePage</button></Link>
+      <div className="results-container">
+        {favorites.map((book) => (
+          <div key={book.id} className="book-card">
+            <img src={book.cover_url} alt={book.title} />
+            <h3>{book.title}</h3>
+            <p>{book.authors}</p>
+          </div>
+        
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default FavoritesPage;
