@@ -5,7 +5,9 @@ const Favorite = require("../models/favoritesModel");
 // POST
 async function addFavorite(req, res) {
   try {
+    const user_id = req.user.user_id;
     const data = req.body;
+    data.user_id = user_id;
     const result = await Favorite.addFavorite(data);
     res.json(result);
   } catch (err) {
@@ -17,7 +19,7 @@ async function addFavorite(req, res) {
 // GET
 async function getFavorites(req, res) {
   try {
-    const user_id = req.params.user_id;
+    const user_id = req.user.user_id;
     const result = await Favorite.getFavorites(user_id);
     res.json(result);
   } catch (err) {

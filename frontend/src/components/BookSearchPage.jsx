@@ -6,7 +6,7 @@ function BookSearchPage() {
     const [hasSearched, setHasSearched] = useState(false);
 
     async function handleSearch(query) {
-        setHasSearched(true); // this hide welcome + animation
+        setHasSearched(true); 
         const res = await fetch(
             `http://localhost:3000/api/books/search?q=${encodeURIComponent(query)}`
         );
@@ -15,21 +15,28 @@ function BookSearchPage() {
     }
 
     async function addToFavorites(book) {
-        await fetch("http://localhost:3000/api/favorites/add", {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:3000/api/favorites/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-                user_id: 1,
                 title: book.title,
-                author: book.authors?.join(", "),   
-                thumbnail: book.thumbnail         
-              })
-              
+                author: book.authors?.join(", "),
+                thumbnail: book.thumbnail
+            })
+
         });
 
-        alert(`${book.title} added to favorites!`);
+        const data = await res.json();
+
+        if (res.ok) {
+            alert(`${book.title} added to favorites!`);
+          } else {
+            alert(data.error || "Could not add to favorites.");
+          }
     }
 
     const categories = [

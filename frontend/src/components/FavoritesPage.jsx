@@ -6,9 +6,14 @@ function FavoritesPage() {
 
   useEffect(() => {
     async function loadFavorites() {
-      const res = await fetch("http://localhost:3000/api/favorites/user/1"); // I am using user_id = 1 for demo 
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:3000/api/favorites/user", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const data = await res.json();
-      setFavorites(data);
+      setFavorites(data)
     }
     loadFavorites();
   }, []);
@@ -25,7 +30,7 @@ function FavoritesPage() {
             <h3>{book.title}</h3>
             <p>{book.authors}</p>
           </div>
-        
+
         ))}
       </div>
     </div>

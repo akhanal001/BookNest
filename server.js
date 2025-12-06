@@ -26,6 +26,8 @@ app.use("/api/books", bookRoutes);
 const favoriteRoutes = require("./routes/favoritesRoutes");
 app.use("/api/favorites", favoriteRoutes);
 
+// Authentication routes 
+app.use("/api/auth", require("./routes/authRoutes"));
 
 app.use(express.static("frontend"));
 
