@@ -2,8 +2,9 @@ const pool = require("../models/db");
 
 class UserModel {
   static async createUser(username, email, hashedPassword) {
+    // Insert the fav catogorty into the database while user signup select them
     const query = `
-      INSERT INTO users (username, email, password)
+      INSERT INTO users (username, email, password) 
       VALUES ($1, $2, $3)
       RETURNING id, username, email;
     `;

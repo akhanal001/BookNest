@@ -25,7 +25,9 @@ function Navbar({ onSearch }) {
 
   return (
     <nav className="navbar">
+       <Link to="/" >
       <img src={logo} alt="BookNest Logo" className="logo-image" />
+      </Link>
 
       <div className="nav-center">
 

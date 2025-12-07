@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
+
 
 function BookSearchPage() {
+
+    const [text, setText] = useState("");
+    const [categoryIndex, setCategoryIndex] = useState(0);
+    const [charIndex, setCharIndex] = useState(0);
     const [results, setResults] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
+    const [topBooks, setTopBooks] = useState([]);
+
 
     async function handleSearch(query) {
-        setHasSearched(true); 
+        setHasSearched(true);
         const res = await fetch(
             `http://localhost:3000/api/books/search?q=${encodeURIComponent(query)}`
         );
@@ -34,9 +42,9 @@ function BookSearchPage() {
 
         if (res.ok) {
             alert(`${book.title} added to favorites!`);
-          } else {
+        } else {
             alert(data.error || "Could not add to favorites.");
-          }
+        }
     }
 
     const categories = [
@@ -47,10 +55,6 @@ function BookSearchPage() {
         "The Great Gatsby",
         "To Kill a Mockingbird"
     ];
-
-    const [text, setText] = useState("");
-    const [categoryIndex, setCategoryIndex] = useState(0);
-    const [charIndex, setCharIndex] = useState(0);
 
     useEffect(() => {
         const current = categories[categoryIndex];
@@ -72,9 +76,18 @@ function BookSearchPage() {
         return () => clearInterval(interval);
     }, [charIndex, categoryIndex]);
 
+    useEffect(() => {
+        async function loadNYTBooks() {
+            const res = await fetch("http://localhost:3000/api/books/nyt/top");
+            const data = await res.json();
+            setTopBooks(data);
+        }
+        loadNYTBooks();
+    }, []);
 
     return (
         <div>
+        
             <Navbar onSearch={handleSearch} />
             {!hasSearched && (
                 <>
@@ -93,9 +106,44 @@ function BookSearchPage() {
                         <button className="fav-btn" onClick={() => addToFavorites(book)}>
                             Add to Favorites
                         </button>
+                        <button className="details-btn">
+                            <Link to={`/book/${book.id}`}>View Details</Link>
+                        </button>
                     </div>
                 ))}
             </div>
+
+            {!hasSearched && (
+                <>
+                    <h2 className="section-title">Top Books This Week</h2>
+
+                    <div className="results-container">
+                        {topBooks.map(book => (
+                            <div className="book-card" key={book.id || book.title}>
+                                <img src={book.thumbnail} alt={book.title} />
+                                <h3>{book.title}</h3>
+
+                                <p>{book.authors?.join(", ")}</p>
+                                <p>Rank #{book.rank}</p>
+
+                                <button className="fav-btn" onClick={() => addToFavorites(book)}>
+                                    Add to Favorites
+                                </button>
+
+                                {book.id && (
+                                    <button className="details-btn">
+                                        <Link to={`/book/${book.id}`}>View Details</Link>
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
+
+
+
+
         </div>
     );
 }

@@ -4,7 +4,8 @@ import BookSearchPage from "./components/BookSearchPage";
 import FavoritesPage from "./components/FavoritesPage";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import Navbar from "./components/Navbar";
+import BookDetailPage from "./components/BookDetailPage";
+
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<BookSearchPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/book/:id" element={<BookDetailPage />} />
+
       </Routes>
     </BrowserRouter>
   );

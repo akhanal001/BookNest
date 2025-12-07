@@ -255,6 +255,68 @@ button:focus-visible {
   background: #b72833;
 }
 
+.section-title {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #213547;
+}
+
+.detail-container {
+  width: 80%;
+  margin: 40px auto;
+  display: flex;
+  gap: 30px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.detail-image {
+  width: 260px;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.detail-info h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.detail-info h3 {
+  font-size: 18px;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+.description {
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.preview-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 18px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.details-btn {
+  margin-top: 8px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+
+
 /* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

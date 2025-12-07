@@ -22,49 +22,50 @@ function FavoritesPage() {
 
   async function removeFromFavorites(id) {
     const token = localStorage.getItem("token");
-  
+
     const res = await fetch(`http://localhost:3000/api/favorites/remove/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-  
+
     const data = await res.json();
-  
+
     if (res.ok) {
       setFavorites(favorites.filter((item) => item.id !== id));
     } else {
       alert("Failed to remove favorite");
     }
   }
-  
 
+  
   return (
     <>
-    <Navbar />
-    <div>
-      <h1 className="welcome">My Favorite Books</h1>
-      <Link to="/" className="nav-link">
-        <button>Back to HomePage</button></Link>
-      <div className="results-container">
-        {favorites.map((book) => (
-          <div key={book.id} className="book-card">
-            <img src={book.cover_url} alt={book.title} />
-            <h3>{book.title}</h3>
-            <p>{book.authors}</p>
+      <Navbar />
+      <div>
 
-            <button
-              className="remove-btn"
-              onClick={() => removeFromFavorites(book.id)}
-            >
-              Remove
-            </button>
-          </div>
+        <h1 className="welcome"> Your's Favorite Books</h1>
+        <Link to="/" className="nav-link">
+          <button>Back to HomePage</button></Link>
+        <div className="results-container">
+          {favorites.map((book) => (
+            <div key={book.id} className="book-card">
+              <img src={book.cover_url} alt={book.title} />
+              <h3>{book.title}</h3>
+              <p>{book.authors}</p>
 
-        ))}
+              <button
+                className="remove-btn"
+                onClick={() => removeFromFavorites(book.id)}
+              >
+                Remove
+              </button>
+            </div>
+
+          ))}
+        </div>
       </div>
-    </div>
     </>
   );
 }

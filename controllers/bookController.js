@@ -20,23 +20,50 @@ async function searchBooks(req, res) {
       },
     });
 
-    const items = response.data.items || [];
+    const books = (response.data.items || [])
+      .filter(item => {
+        const info = item.volumeInfo || {};
+        const access = item.accessInfo || {};
 
 
-    const books = items.map((item) => {
-      const info = item.volumeInfo || {};
-      const imageLinks = info.imageLinks || {};
+        if (access.pdf?.isAvailable) return false;
 
-      return {
-        id: item.id,
-        title: info.title || "No title",
-        authors: info.authors || [],
-        publishedDate: info.publishedDate || "",
-        description: info.description || "",
-        thumbnail: imageLinks.thumbnail || imageLinks.smallThumbnail || "",
-        pageCount: info.pageCount || null,
-      };
-    });
+
+        if (info.printType && info.printType !== "BOOK") return false;
+
+
+        if (!info.imageLinks) return false;
+
+        const thumb = info.imageLinks.thumbnail || "";
+
+
+        const isPagePreview =
+          thumb.includes("pg=PP") ||
+          thumb.includes("pg=PR");
+        if (isPagePreview) return false;
+
+
+        return true;
+      })
+      .map(item => {
+        const info = item.volumeInfo || {};
+        const imageLinks = info.imageLinks || {};
+
+        let thumbnail =
+          imageLinks.thumbnail ||
+          imageLinks.smallThumbnail ||
+          "";
+
+        return {
+          id: item.id,
+          title: info.title || "No title",
+          authors: info.authors || [],
+          publishedDate: info.publishedDate || "",
+          description: info.description || "",
+          thumbnail,
+          pageCount: info.pageCount || null,
+        };
+      });
 
     res.json(books);
   } catch (err) {
@@ -45,6 +72,70 @@ async function searchBooks(req, res) {
   }
 }
 
+async function getBookDetails(req, res) {
+  const bookId = req.params.id;
+
+  try {
+    let response;
+    if (isNaN(bookId)) {
+      response = await axios.get(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+    }
+    else {
+      response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=isbn:${bookId}`
+      );
+      if (!response.data.items || response.data.items.length === 0) {
+        return res.status(404).json({ error: "Book details not found" });
+      }
+      response = response.data.items[0];
+    }
+
+    const info = response.volumeInfo || response.data.volumeInfo;
+
+    const book = {
+      id: bookId,
+      title: info.title || "No title",
+      authors: info.authors || [],
+      publishedDate: info.publishedDate,
+      description: info.description || "No description available.",
+      pageCount: info.pageCount,
+      categories: info.categories || [],
+      thumbnail: info.imageLinks?.thumbnail
+    };
+
+    res.json(book);
+  } catch (err) {
+    console.error("Book details error:", err.message);
+    res.status(500).json({ error: "Failed to fetch book details" });
+  }
+}
+
+
+async function getNYTBooks(req, res) {
+  const apiKey = process.env.NYT_API_KEY;
+
+  try {
+    const response = await axios.get(
+      "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json",
+      { params: { "api-key": apiKey } }
+    );
+
+    const books = response.data.results.books.map(b => ({
+      id: b.primary_isbn10 || b.primary_isbn13 || b.title,
+      title: b.title,
+      authors: [b.author],
+      rank: b.rank,
+      thumbnail: b.book_image
+    }));
+
+    res.json(books);
+  } catch (err) {
+    console.error("NYT Error:", err.message);
+    res.status(500).json({ error: "Failed to fetch NYT books" });
+  }
+}
+
+
 module.exports = {
-  searchBooks,
+  searchBooks, getBookDetails, getNYTBooks
 };
