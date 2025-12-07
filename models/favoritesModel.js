@@ -31,7 +31,18 @@ async function getFavorites(user_id) {
   return result.rows;
 }
 
+async function deleteFavorite(id, user_id) {
+  const query = `
+    DELETE FROM books 
+    WHERE id = $1 AND user_id = $2
+    RETURNING *;
+  `;
+  const result = await pool.query(query, [id, user_id]);
+  return result.rows[0];
+}
+
 module.exports = {
   addFavorite,
-  getFavorites
+  getFavorites,
+  deleteFavorite
 };

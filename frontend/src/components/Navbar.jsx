@@ -43,7 +43,7 @@ function Navbar({ onSearch }) {
       {isLoggedIn ? (
         <>
           <Link to="/favorites" className="nav-link">
-            <button>Favorites</button>
+            <button className="fav-btn2">Favorites</button>
           </Link>
 
           <button className="nav-link" onClick={handleLogout}>

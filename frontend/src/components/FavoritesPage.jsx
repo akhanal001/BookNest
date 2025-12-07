@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
+
 
 function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
@@ -18,7 +20,29 @@ function FavoritesPage() {
     loadFavorites();
   }, []);
 
+  async function removeFromFavorites(id) {
+    const token = localStorage.getItem("token");
+  
+    const res = await fetch(`http://localhost:3000/api/favorites/remove/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  
+    const data = await res.json();
+  
+    if (res.ok) {
+      setFavorites(favorites.filter((item) => item.id !== id));
+    } else {
+      alert("Failed to remove favorite");
+    }
+  }
+  
+
   return (
+    <>
+    <Navbar />
     <div>
       <h1 className="welcome">My Favorite Books</h1>
       <Link to="/" className="nav-link">
@@ -29,11 +53,19 @@ function FavoritesPage() {
             <img src={book.cover_url} alt={book.title} />
             <h3>{book.title}</h3>
             <p>{book.authors}</p>
+
+            <button
+              className="remove-btn"
+              onClick={() => removeFromFavorites(book.id)}
+            >
+              Remove
+            </button>
           </div>
 
         ))}
       </div>
     </div>
+    </>
   );
 }
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
+import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function Login() {
   const [form, setForm] = useState({
@@ -36,6 +38,9 @@ function Login() {
   }
 
   return (
+    <>
+    <Navbar />
+
     <div className="auth-container" >
       <h2>Login</h2>
 
@@ -58,9 +63,13 @@ function Login() {
 
         <button type="submit">Login</button>
       </form>
+      <p className="auth-link">
+          Don't have an account? <Link to="/signup">SignUp</Link>
+        </p>
 
       {message && <p className="auth-message"> {message}</p>}
     </div>
+    </>
   );
 }
 

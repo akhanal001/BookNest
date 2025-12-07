@@ -4,9 +4,11 @@ import BookSearchPage from "./components/BookSearchPage";
 import FavoritesPage from "./components/FavoritesPage";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/signup" element={<Signup />} />

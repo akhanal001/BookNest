@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
+import { useNavigate,Link } from "react-router-dom";
+import Navbar from "./Navbar"; 
 
 function Signup() {
   const [form, setForm] = useState({
@@ -7,6 +9,7 @@ function Signup() {
     email: "",
     password: ""
   });
+  const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
 
@@ -26,6 +29,9 @@ function Signup() {
     const data = await res.json();
 
     if (res.ok) {
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
       setMessage("Account created! You can now login.");
     } else {
       setMessage(data.error || "Signup failed.");
@@ -33,6 +39,9 @@ function Signup() {
   }
 
   return (
+    <>
+    <Navbar />
+
     <div className="auth-container" >
       <h2>Create Account</h2>
 
@@ -62,10 +71,15 @@ function Signup() {
         />
 
         <button type="submit">Sign Up</button>
-      </form>
 
+
+      </form>
+      <p className="auth-link">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       {message && <p className="auth-message"> {message}</p>}
     </div>
+    </>
   );
 }
 

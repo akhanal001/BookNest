@@ -28,7 +28,26 @@ async function getFavorites(req, res) {
   }
 }
 
+async function removeFavorite(req, res) {
+  try {
+    const user_id = req.user.user_id;
+    const { id } = req.params;
+
+    const removed = await Favorite.deleteFavorite(id, user_id);
+
+    if (!removed) {
+      return res.status(404).json({ error: "Favorite not found" });
+    }
+
+    res.json({ message: "Removed from favorites", removed });
+  } catch (err) {
+    console.error("Remove favorite error:", err);
+    res.status(500).json({ error: "Cannot remove favorite" });
+  }
+}
+
 module.exports = {
   addFavorite,
-  getFavorites
+  getFavorites,
+  removeFavorite
 };
