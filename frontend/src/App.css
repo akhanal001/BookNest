@@ -96,10 +96,23 @@ body{
   margin-bottom: 30px;
   margin-right: 10px;
 }
+  .book-card::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 5px;
+  background: #10b981;  
+  margin: 8px auto 0;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  }
 
 .book-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+.book-card:hover::after {
+  width: 280px;
 }
 
 .book-card img {
@@ -287,12 +300,31 @@ select[name="favorite_category"] option {
   background: #b72833;
 }
 
+
 .section-title {
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #213547;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: 0.5px;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #10b981;  
+  margin: 8px auto 0;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.section-title:hover::after {
+  width: 300px;
 }
 
 .detail-container {
@@ -362,13 +394,148 @@ button a {
   margin-left: 10px;
 }
 .nav-right .nav-link{
-  background-color: red;
-  color: white;
-  font-weight: 500;
-  font-size: 14px;
+  padding: 8px 12px;
+  display: block;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
 }
 
-/* Fade animation */
+.nav-right .nav-link:hover {
+  background: #eee;
+}
+
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.profile-name {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  z-index: 20;
+  min-width: 140px;
+  
+}
+
+.profile-container:hover .profile-dropdown {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  display: block;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #eee;
+}
+
+
+.profile-page {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  font-family: Arial, sans-serif;
+}
+
+
+.profile-page h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #222;
+}
+
+.profile-page p strong {
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-page p {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+
+.profile-page input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s;
+}
+.profile-name{
+  color: navy;
+}
+.profile-name:hover{
+  font-size: larger;
+}
+
+.profile-page input:focus {
+  border-color: #10b981; 
+  box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+}
+
+.profile-page button {
+  display: inline-block;
+  width: 100px;       
+  padding: 6px 0;    
+  background-color: #10b981;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.25s;
+}
+.profile-page button:hover {
+  background-color: #0d966d;
+}
+
+
+.profile-page .nav-link button{
+  background-color: white;
+  display: block;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  align-items: center;
+  background-color: red;
+}
+
+@media (max-width: 600px) {
+  .profile-page {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

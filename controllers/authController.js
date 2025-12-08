@@ -44,7 +44,7 @@ const authController = {
         return res.status(401).json({ error: "Invalid credentials" });
 
       const token = jwt.sign(
-        { user_id: user.id },
+        { user_id: user.id, username: user.username },
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
       );
@@ -53,6 +53,28 @@ const authController = {
     } catch (err) {
       console.error("Login error:", err);
       res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async getMe(req, res) {
+    try {
+      const user = await UserModel.getUserById(req.user.user_id);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({ error: "Cannot fetch user info" });
+    }
+  },
+
+  async updateUser(req, res) {
+    try {
+      const user_id = req.user.user_id;
+      const data = req.body;
+
+      const updated = await UserModel.updateUser(user_id, data);
+
+      res.json(updated);
+    } catch (err) {
+      res.status(500).json({ error: "Cannot update profile" });
     }
   }
 };
