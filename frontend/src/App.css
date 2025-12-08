@@ -352,6 +352,22 @@ button a {
   text-decoration: none;
   color: inherit;
 }
+.status-btn{
+  margin-top: 8px;
+  background:rgb(241, 195, 195);
+  color: black;
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  margin-left: 10px;
+}
+.nav-right .nav-link{
+  background-color: red;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+}
+
 /* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

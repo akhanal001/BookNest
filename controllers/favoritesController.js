@@ -46,8 +46,33 @@ async function removeFavorite(req, res) {
   }
 }
 
+async function updateStatus(req, res) {
+  try {
+    const user_id = req.user.user_id; 
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!["To Read", "Finished"].includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+
+    const updated = await Favorite.updateStatus(id, user_id, status); 
+
+    if (!updated) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    res.json(updated);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
 module.exports = {
   addFavorite,
   getFavorites,
-  removeFavorite
+  removeFavorite,
+  updateStatus
 };

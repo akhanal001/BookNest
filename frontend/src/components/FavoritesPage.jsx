@@ -6,6 +6,30 @@ import Navbar from "./Navbar";
 function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
 
+  async function updateStatus(id, currentStatus) {
+    const token = localStorage.getItem("token");
+  
+    const newStatus = currentStatus === "To Read" ? "Finished" : "To Read";
+  
+    const res = await fetch(`http://localhost:3000/api/favorites/status/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: newStatus })
+    });
+  
+    const data = await res.json();
+  
+    if (res.ok) {
+      setFavorites(favorites.map(book =>
+        book.id === id ? { ...book, status: newStatus } : book
+      ));
+    } else {
+      alert(data.error);
+    }
+  }
   useEffect(() => {
     async function loadFavorites() {
       const token = localStorage.getItem("token");
@@ -28,8 +52,7 @@ function FavoritesPage() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
-
+    }) 
     const data = await res.json();
 
     if (res.ok) {
@@ -58,6 +81,16 @@ function FavoritesPage() {
                 {new Date(book.added_at).toLocaleDateString()}
               </p>
               <p> <strong>Category: </strong> {book.category}</p>
+              <p><strong>Status:</strong> <h3>{book.status}</h3></p>
+
+              <div> 
+              <button
+                className="status-btn"
+                onClick={() => updateStatus(book.id, book.status)}
+              >
+                {book.status === "To Read" ? "Complete" : "To Read"}
+              </button>
+              </div>
 
               <button
                 className="remove-btn"
@@ -65,6 +98,7 @@ function FavoritesPage() {
               >
                 Remove
               </button>
+              
             </div>
 
           ))}
