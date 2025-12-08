@@ -9,6 +9,8 @@ const auth = require("../middleware/auth");
 router.post("/add" ,auth, favoritesController.addFavorite);
 router.get("/user",auth, favoritesController.getFavorites);
 router.delete("/remove/:id", auth, favoritesController.removeFavorite);
+router.put("/status/:id", auth, favoritesController.updateStatus);
+
 
 
 
