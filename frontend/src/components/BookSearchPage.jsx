@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import { addToFavorites } from "./favorites";
 
 
 function BookSearchPage() {
@@ -20,31 +21,6 @@ function BookSearchPage() {
         );
         const data = await res.json();
         setResults(data);
-    }
-
-    async function addToFavorites(book) {
-        const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:3000/api/favorites/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                title: book.title,
-                author: book.authors?.join(", "),
-                thumbnail: book.thumbnail
-            })
-
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-            alert(`${book.title} added to favorites!`);
-        } else {
-            alert(data.error || "Could not add to favorites.");
-        }
     }
 
     const categories = [

@@ -341,12 +341,17 @@ select[name="favorite_category"] option {
 
 .details-btn {
   margin-top: 8px;
-  background: #2563eb;
+  background: #10b981;
   color: white;
   border-radius: 8px;
   padding: 8px 12px;
+  text-decoration: none;
+  margin-left: 10px;
 }
-
+button a {
+  text-decoration: none;
+  color: inherit;
+}
 /* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

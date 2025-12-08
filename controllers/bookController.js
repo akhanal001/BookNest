@@ -62,6 +62,7 @@ async function searchBooks(req, res) {
           description: info.description || "",
           thumbnail,
           pageCount: info.pageCount || null,
+          categories: info.categories || [],
         };
       });
 
@@ -76,21 +77,22 @@ async function getBookDetails(req, res) {
   const bookId = req.params.id;
 
   try {
-    let response;
+    // let response;
+    let info;
     if (isNaN(bookId)) {
-      response = await axios.get(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+      const response = await axios.get(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+      info = response.data.volumeInfo || {};
     }
+      
     else {
-      response = await axios.get(
+      const response = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=isbn:${bookId}`
       );
       if (!response.data.items || response.data.items.length === 0) {
         return res.status(404).json({ error: "Book details not found" });
       }
-      response = response.data.items[0];
+      info = response.data.items[0].volumeInfo || {};
     }
-
-    const info = response.volumeInfo || response.data.volumeInfo;
 
     const book = {
       id: bookId,
@@ -100,7 +102,11 @@ async function getBookDetails(req, res) {
       description: info.description || "No description available.",
       pageCount: info.pageCount,
       categories: info.categories || [],
-      thumbnail: info.imageLinks?.thumbnail
+      thumbnail: info.imageLinks?.thumbnail ||
+      info.imageLinks?.smallThumbnail ||
+      "/placeholder-book.png",
+      previewLink: info.previewLink || null,
+      publisher: info.publisher || "Unknown"
     };
 
     res.json(book);
@@ -125,7 +131,8 @@ async function getNYTBooks(req, res) {
       title: b.title,
       authors: [b.author],
       rank: b.rank,
-      thumbnail: b.book_image
+      thumbnail: b.book_image,
+      category: response.data.results.list_name 
     }));
 
     res.json(books);

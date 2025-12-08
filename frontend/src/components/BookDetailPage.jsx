@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
+import { addToFavorites } from "./favorites";
+
 
 function BookDetailPage() {
   const { id } = useParams();
@@ -21,6 +24,8 @@ function BookDetailPage() {
     <div>
       <Navbar />
 
+        <Link to="/" className="nav-link">
+          <button>Back to HomePage</button></Link>
       <div className="detail-container">
         <img
           className="detail-image"
@@ -30,8 +35,8 @@ function BookDetailPage() {
 
         <div className="detail-info">
           <h1>{book.title}</h1>
-          <h3>{book.authors?.join(", ")}</h3>
-
+          <h3>By {book.authors?.join(", ")}</h3>
+          
           <p><strong>Published:</strong> {book.publishedDate}</p>
           <p><strong>Pages:</strong> {book.pageCount}</p>
           <p><strong>Categories:</strong> {book.categories?.join(", ")}</p>
@@ -44,6 +49,10 @@ function BookDetailPage() {
               Preview on Google Books
             </a>
           )}
+          <button className="fav-btn" onClick={() => addToFavorites(book)}>
+              Add to Favorites
+                </button>
+
         </div>
       </div>
     </div>

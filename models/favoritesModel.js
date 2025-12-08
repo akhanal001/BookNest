@@ -13,8 +13,9 @@ const values = [
   data.title,
   data.author,    
   data.thumbnail,  
-  "To Read",       
-  "Unknown"       
+  "To Read",     
+  data.category || "Unknown"  
+
 ];
 
 

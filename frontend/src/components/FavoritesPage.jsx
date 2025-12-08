@@ -39,7 +39,7 @@ function FavoritesPage() {
     }
   }
 
-  
+
   return (
     <>
       <Navbar />
@@ -53,7 +53,11 @@ function FavoritesPage() {
             <div key={book.id} className="book-card">
               <img src={book.cover_url} alt={book.title} />
               <h3>{book.title}</h3>
-              <p>{book.authors}</p>
+              <p><strong>Author: </strong> {book.author}</p>
+              <p><strong>Added on:</strong>
+                {new Date(book.added_at).toLocaleDateString()}
+              </p>
+              <p> <strong>Category: </strong> {book.category}</p>
 
               <button
                 className="remove-btn"
