@@ -12,10 +12,16 @@ function BookSearchPage() {
     const [results, setResults] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
     const [topBooks, setTopBooks] = useState([]);
+    const [username, setUsername] = useState("");
 
 
     async function handleSearch(query) {
-        setHasSearched(true);
+        if (query === "") {
+        setResults([]);
+        setHasSearched(false);
+        return;
+    }
+    setHasSearched(true);
         const res = await fetch(
             `http://localhost:3000/api/books/search?q=${encodeURIComponent(query)}`
         );
@@ -60,6 +66,18 @@ function BookSearchPage() {
         }
         loadNYTBooks();
     }, []);
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+    
+        try {
+          const payload = JSON.parse(atob(token.split(".")[1]));
+          setUsername(payload.username);
+
+        } catch (err) {
+          console.log("Invalid token");
+        }
+      }, []);
 
     return (
         <div>
@@ -67,7 +85,7 @@ function BookSearchPage() {
             <Navbar onSearch={handleSearch} />
             {!hasSearched && (
                 <>
-                    <h1 className="welcome">Welcome to BookNest</h1>
+                    <h1 className="welcome">Welcome, {username}</h1>
                     <h1 className="search_">Search</h1>
                     <h1 className="search_">{text}</h1>
                 </>

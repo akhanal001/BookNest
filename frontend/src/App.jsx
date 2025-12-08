@@ -5,6 +5,7 @@ import FavoritesPage from "./components/FavoritesPage";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import BookDetailPage from "./components/BookDetailPage";
+import ProfilePage from "./components/ProfilePage";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Route path="/" element={<BookSearchPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/book/:id" element={<BookDetailPage />} />
-
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );

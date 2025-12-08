@@ -21,6 +21,34 @@ class UserModel {
     );
     return result.rows[0];
   }
+
+static async getUserById(id) {
+  const result = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+  return result.rows[0];
 }
 
+static async updateUser(id, data) {
+  const query = `
+    UPDATE users
+    SET username = $1,
+        email = $2,
+        favorite_category = $3
+    WHERE id = $4
+    RETURNING *;
+  `;
+
+  const values = [
+    data.username,
+    data.email,
+    data.favorite_category,
+    id
+  ];
+
+  const result = await pool.query(query, values);
+  return result.rows[0];
+  }
+}
+
+
 module.exports = UserModel;
+
