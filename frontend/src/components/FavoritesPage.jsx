@@ -11,7 +11,7 @@ function FavoritesPage() {
   
     const newStatus = currentStatus === "To Read" ? "Finished" : "To Read";
   
-    const res = await fetch(`http://localhost:3000/api/favorites/status/${id}`, {
+    const res = await fetch(`/api/favorites/status/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

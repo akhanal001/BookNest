@@ -6,7 +6,7 @@ export async function addToFavorites(book) {
       return;
     }
 
-    const res = await fetch("http://localhost:3000/api/favorites/add", {
+    const res = await fetch("/api/favorites/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
