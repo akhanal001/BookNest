@@ -2,20 +2,23 @@
 
 require("dotenv").config();
 const express = require("express");
-const multer = require("multer");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
 // GLOBAL CORS CONFIG
-app.use(cors({
-    origin: "http://localhost:5173",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true
-}));
+if (process.env.NODE_ENV !== "production") {
+    app.use(cors({
+      origin: "http://localhost:5173",
+      methods: "GET,POST,PUT,DELETE",
+      credentials: true
+    }));
+    }
+    
 
 // Middleware
-app.use(multer().none());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
