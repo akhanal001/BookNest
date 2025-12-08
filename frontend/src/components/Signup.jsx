@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
-import { useNavigate,Link } from "react-router-dom";
-import Navbar from "./Navbar"; 
+import { useNavigate, Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function Signup() {
   const [form, setForm] = useState({
@@ -9,6 +9,18 @@ function Signup() {
     email: "",
     password: ""
   });
+
+  const categories = [
+    "Fiction",
+    "Fantasy",
+    "Romance",
+    "Mystery",
+    "Science Fiction",
+    "Non-Fiction",
+    "Biography",
+    "Self-Help",
+    "Children"
+  ];
   const navigate = useNavigate();
 
   const [message, setMessage] = useState("");
@@ -40,47 +52,52 @@ function Signup() {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
 
-    <div className="auth-container" >
-      <h2>Create Account</h2>
+      <div className="auth-container" >
+        <h2>Create Account</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          onChange={handleChange}
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            onChange={handleChange}
+            required
+          />
 
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+          />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
-       
-          
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={handleChange}
+            required
+          />
 
-        <button type="submit">Sign Up</button>
+          <select name="favorite_category" onChange={handleChange} required>
+            <option value="">Select Favorite Category</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+
+          <button type="submit">Sign Up</button>
 
 
-      </form>
-      <p className="auth-link">
+        </form>
+        <p className="auth-link">
           Already have an account? <Link to="/login">Login</Link>
         </p>
-      {message && <p className="auth-message"> {message}</p>}
-    </div>
+        {message && <p className="auth-message"> {message}</p>}
+      </div>
     </>
   );
 }

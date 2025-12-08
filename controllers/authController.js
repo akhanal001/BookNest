@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const authController = {
   async register(req, res) {
-    const { username, email, password } = req.body;
+    const { username, email, password, favorite_category } = req.body;
 
     if (!username || !email || !password)
       return res.status(400).json({ error: "Missing fields" });
@@ -16,7 +16,8 @@ const authController = {
       const user = await UserModel.createUser(
         username,
         email,
-        hashedPassword
+        hashedPassword,
+        favorite_category
       );
 
       res.status(201).json({ message: "User created", user });
