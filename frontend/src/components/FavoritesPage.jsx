@@ -9,7 +9,7 @@ function FavoritesPage() {
   useEffect(() => {
     async function loadFavorites() {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/favorites/user", {
+      const res = await fetch("/api/favorites/user", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -23,7 +23,7 @@ function FavoritesPage() {
   async function removeFromFavorites(id) {
     const token = localStorage.getItem("token");
 
-    const res = await fetch(`http://localhost:3000/api/favorites/remove/${id}`, {
+    const res = await fetch(`/api/favorites/remove/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -11,7 +11,7 @@ function BookDetailPage() {
 
   useEffect(() => {
     async function fetchDetails() {
-      const res = await fetch(`http://localhost:3000/api/books/details/${id}`);
+      const res = await fetch(`/api/books/details/${id}`);
       const data = await res.json();
       setBook(data);
     }

@@ -29,7 +29,13 @@ app.use("/api/favorites", favoriteRoutes);
 // Authentication routes 
 app.use("/api/auth", require("./routes/authRoutes"));
 
-app.use(express.static("frontend"));
+const frontendPath = path.join(__dirname, "frontend/dist");
+
+app.use(express.static(frontendPath));
+
+app.get('/{*splat}', function (req, res) {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

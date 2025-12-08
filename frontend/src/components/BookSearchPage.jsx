@@ -17,7 +17,7 @@ function BookSearchPage() {
     async function handleSearch(query) {
         setHasSearched(true);
         const res = await fetch(
-            `http://localhost:3000/api/books/search?q=${encodeURIComponent(query)}`
+            `/api/books/search?q=${encodeURIComponent(query)}`
         );
         const data = await res.json();
         setResults(data);
@@ -54,7 +54,7 @@ function BookSearchPage() {
 
     useEffect(() => {
         async function loadNYTBooks() {
-            const res = await fetch("http://localhost:3000/api/books/nyt/top");
+            const res = await fetch("/api/books/nyt/top");
             const data = await res.json();
             setTopBooks(data);
         }
